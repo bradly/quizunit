@@ -15,6 +15,13 @@ var TestRuner = {
     }
   },
   
+  'logger' : function (message) {
+    // document.write(message + '<br />');
+    // print(message);
+    // $stdin(message);
+    console.log(message);
+  },
+  
   'run_test' : function (test_name, test_case) {
     var error = null;
     var result = null;
@@ -27,10 +34,10 @@ var TestRuner = {
     }
 
     if (result === expected) {
-      console.log('.');
+      this.logger('.');
     } else {
       this.number_of_tests_failed += 1;
-      console.log('`' + test_name + '` failed: expected `' + expected + '`, but got `' + (error || result) + '`');
+      this.logger('`' + test_name + '` failed: expected `' + expected + '`, but got `' + (error || result) + '`');
     }
   },
   
@@ -43,7 +50,7 @@ var TestRuner = {
     var test_suite = test_target.test_suite;
     var test_case = null;
     
-    console.log('Running ' + this.number_of_tests + ' tests...');
+    this.logger('Running ' + this.number_of_tests + ' tests...');
   
     for (test_name in test_suite) {
       if (test_suite.hasOwnProperty(test_name)) {
@@ -55,13 +62,7 @@ var TestRuner = {
     this.run_time = (this.end_time - this.start_time) / 1000.0;
     this.number_of_tests_passed = this.number_of_tests - this.number_of_tests_failed;
 
-    console.log(this.number_of_tests + ' tests run in ' + this.run_time + ' seconds.');
-    console.log(this.number_of_tests_passed + ' passed, ' + this.number_of_tests_failed + ' failed.');
-  }
-};
-
-var console = {
-  'log' : function (message) {
-    document.write(message + '<br />')
+    this.logger(this.number_of_tests + ' tests run in ' + this.run_time + ' seconds.');
+    this.logger(this.number_of_tests_passed + ' passed, ' + this.number_of_tests_failed + ' failed.');
   }
 };

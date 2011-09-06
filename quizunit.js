@@ -23,31 +23,6 @@ var TestRuner = {
     console.log(message);
   },
   
-  'all_passed' : function () {
-    this.logger('Good to go!');
-  },
-  
-  'all_failed' : function () {
-    this.logger('Oh noes!');
-  },
-  
-  'test_passed' : function (test_name) {
-    this.logger('.');
-  },
-  
-  'test_failed' : function (test_name, expected, result) {
-    this.logger('`' + test_name + '` failed: expected `' + expected + '`, but got `' + result + '`');
-  },
-  
-  'complete' : function () {
-    this.logger(this.number_of_tests + ' tests run in ' + this.run_time + ' seconds.');
-    this.logger(this.number_of_tests_passed + ' passed, ' + this.number_of_tests_failed + ' failed.');
-  },
-  
-  'start' : function () {
-    this.logger('Running ' + this.number_of_tests + ' tests...');
-  },
-  
   'run_test' : function (test_name, test_case) {
     var error = null;
     var result = null;
@@ -76,11 +51,27 @@ var TestRuner = {
     
     var test_suite = test_target.test_suite;
     var test_case = null;
+    
+    if (test_suite['before_all'] !== undefined) {
+      test_suite['before_all']();
+    } else {
+      this.logger('error...');
+    }
   
     for (test_name in test_suite) {
       if (test_suite.hasOwnProperty(test_name) && test_name.match(/^should/)) {
+        if (test_suite['before_each'] !== undefined) {
+          test_suite['before_each']();
+        }
         this.run_test( test_name, test_target.test_suite[test_name] );
+        if (test_suite['after_each'] !== undefined) {
+          test_suite['after_each']();
+        }
       }
+    }
+    
+    if (test_suite['after_all'] !== undefined) {
+      test_suite['after_all']();
     }
     
     this.end_time = (new Date()).getTime();
@@ -94,5 +85,30 @@ var TestRuner = {
     }
     
     this.complete();
-  }
+  },
+  
+  'start' : function () {
+    this.logger('Running ' + this.number_of_tests + ' tests...');
+  },
+  
+  'test_passed' : function (test_name) {
+    this.logger('.');
+  },
+  
+  'all_passed' : function () {
+    this.logger('Good to go!');
+  },
+  
+  'all_failed' : function () {
+    // this.logger('Oh noes!');
+  },
+  
+  'test_failed' : function (test_name, expected, result) {
+    this.logger('`' + test_name + '` failed: expected `' + expected + '`, but got `' + result + '`');
+  },
+  
+  'complete' : function () {
+    this.logger(this.number_of_tests + ' tests run in ' + this.run_time + ' seconds.');
+    this.logger(this.number_of_tests_passed + ' passed, ' + this.number_of_tests_failed + ' failed.');
+  },
 };

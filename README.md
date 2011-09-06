@@ -1,6 +1,6 @@
 #QuizUnit
 
-QuizUnit is a minimalist JavaScript unit testing.
+QuizUnit is a minimalist JavaScript unit testing framework.
 
 ## Dependencies
 

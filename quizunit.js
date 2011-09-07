@@ -48,6 +48,7 @@ var QuizUnit = {
     this.number_of_tests_failed = 0;
     this.start_time = (new Date()).getTime();
     this.number_of_tests = Object.keys(test_target.test_suite).length;
+    this.start();
     
     var test_suite = test_target.test_suite;
     var test_case = null;

@@ -1,7 +1,7 @@
 // QuizUnit.js
 // Copyright 2011 Bradly Feeley
 
-var TestRuner = {
+var QuizUnit = {
   'number_of_tests' : 0,
   'number_of_tests_passed' : 0,
   'number_of_tests_failed' : 0,

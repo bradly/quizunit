@@ -55,8 +55,6 @@ var QuizUnit = {
     
     if (test_suite['before_all'] !== undefined) {
       test_suite['before_all']();
-    } else {
-      this.logger('error...');
     }
   
     for (test_name in test_suite) {

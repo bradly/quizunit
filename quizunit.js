@@ -2,13 +2,12 @@
 // Copyright 2011 Bradly Feeley
 
 var QuizUnit = {
-  'number_of_tests' : 0,
   'number_of_tests_passed' : 0,
   'number_of_tests_failed' : 0,
   'start_time' : null,
-  'end_time' : null,
-  'run_time' : null,
-  'targets' : null,
+  'end_time'   : null,
+  'run_time'   : null,
+  'targets'    : null,
   
   'ensure_test_target_has_tests' : function (test_target) {
     if (!test_target.hasOwnProperty('test_suite')) {
@@ -17,10 +16,10 @@ var QuizUnit = {
   },
   
   'logger' : function (message) {
-    // document.write(message + '<br />');
+    document.write(message);
     // print(message);
     // $stdin(message);
-    console.log(message);
+    // console.log(message);
   },
   
   'run_test' : function (test_name, test_case) {
@@ -45,9 +44,7 @@ var QuizUnit = {
   
   'run_tests' : function (test_target) {
     this.ensure_test_target_has_tests(test_target);
-    this.number_of_tests_failed = 0;
     this.start_time = (new Date()).getTime();
-    this.number_of_tests = Object.keys(test_target.test_suite).length;
     this.start();
     
     var test_suite = test_target.test_suite;
@@ -87,11 +84,11 @@ var QuizUnit = {
   },
   
   'start' : function () {
-    this.logger('Running ' + this.number_of_tests + ' tests...');
+    this.logger('<h2>Running tests...</h2>');
   },
   
   'test_passed' : function (test_name) {
-    this.logger('.');
+    this.logger('.<br/>');
   },
   
   'all_passed' : function () {
@@ -103,11 +100,13 @@ var QuizUnit = {
   },
   
   'test_failed' : function (test_name, expected, result) {
-    this.logger('`' + test_name + '` failed: expected `' + expected + '`, but got `' + result + '`');
+    this.logger('<h2 style="color:#c00;">`' + test_name + '` failed: expected `' + expected + '`, but got `' + result + '`</h2>');
   },
   
   'complete' : function () {
-    this.logger(this.number_of_tests + ' tests run in ' + this.run_time + ' seconds.');
-    this.logger(this.number_of_tests_passed + ' passed, ' + this.number_of_tests_failed + ' failed.');
+    message  = '<h2>' + this.number_of_tests + ' tests run in ' + this.run_time + ' seconds.</h2>'
+    message += '<h2><span style="color:#080;">' + this.number_of_tests_passed + ' passed</span>'
+    message += ', <span style="color:' + (this.number_of_tests_failed > 0 ? '#c00' : '#000') + ';">' + this.number_of_tests_failed + ' failed.</span></h2>'; 
+    this.logger(message);
   },
 };
